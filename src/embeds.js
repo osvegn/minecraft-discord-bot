@@ -118,6 +118,59 @@ const statusEmbed = async () => {
   }
 }
 
+const dockerStatsEmbed = async () => {
+  var exec = require('child_process').exec;
+  var result = '';
+
+  var proc = await new Promise((resolve, reject) => {
+    exec('cd /opt/discord-bot; ls; pwd; docker compose stats --no-stream --format json', (error, stdout, stderr) => {
+      if (error) {
+        reject(`Error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        reject(`Stderr: ${stderr}`);
+        return;
+      }
+      resolve(stdout);
+    });
+  });
+
+var result = proc;
+
+//var tmp = await exec('cd /opt/discord-bot; ls; pwd; docker compose stats --no-stream', (error, stdout, stderr) => {
+//    if (error) {
+//      console.error('exec error: ' + error);
+//      return;
+//    }
+//    console.log('stdout: ' + stdout);
+//    console.log('stderr: ' + stderr);
+//    var result = stdout;
+//    console.log('result1: ' + result);
+//    return;
+//  });
+//  console.log(tmp);
+  console.log('result2: ' + result);
+  if (result == '') {
+    return new EmbedBuilder()
+  .setColor(settings.embedsColors.basicCmds)
+  .setThumbnail(mcserver.icon)
+  .setAuthor({
+    name: mcserver.name,
+  })
+  .setTitle('Docker status')
+  .setDescription('Empty result');
+  }
+  return new EmbedBuilder()
+  .setColor(settings.embedsColors.basicCmds)
+  .setThumbnail(mcserver.icon)
+  .setAuthor({
+    name: mcserver.name,
+  })
+  .setTitle('Docker status')
+  .setDescription(result);
+}
+
 // Online Embed Message for status commands
 const OnlineEmbed = async (data, playerlist) => {
   try {
@@ -262,6 +315,7 @@ module.exports = {
   ip,
   playerList,
   statusEmbed,
+  dockerStatsEmbed,
   OnlineEmbed,
   motdEmbed,
   helpEmbed,

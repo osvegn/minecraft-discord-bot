@@ -48,6 +48,11 @@
     description: 'Envoie les informations actuelles sur le bot.',
     errorReply: ":warning:  **`Une erreur s'est produite lors de la récupération des informations.`**",
   },
+  dockerstats: {
+    name: 'dockerstats',
+    description: 'Get the status of the docker container',
+    errorReply: ":warning: **`Une erreur s'est produite lors de la récupération des stats.`**"
+  },
   setstatus: {
     name: 'setstatus',
     description: "Définit le message d'état du serveur Minecraft dans le canal actuel.",
